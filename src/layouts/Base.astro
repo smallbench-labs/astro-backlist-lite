@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import caslonDisplay from '@fontsource/libre-caslon-display/files/libre-caslon-display-latin-400-normal.woff2?url';
+import caslonText from '@fontsource/libre-caslon-text/files/libre-caslon-text-latin-400-normal.woff2?url';
+import grotesk from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
+import { press } from '../press.config';
+interface Props { title?: string; description?: string; jsonld?: object; noindex?: boolean }
+const { title, description = press.description, jsonld, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = title ? `${title} · ${press.name}` : `${press.name} — ${press.tagline}`;
+---
+<!doctype html>
+<html lang={press.language}>
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:type" content="website" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <link rel="preload" href={caslonDisplay} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={caslonText} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={grotesk} as="font" type="font/woff2" crossorigin />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {jsonld && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />}
+</head>
+<body class="min-h-dvh flex flex-col">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:p-3 focus:bg-ink focus:text-paper ui">Skip to content</a>
+  <header class="container-x pt-5 no-print">
+    <div class="flex items-end justify-between gap-6 border-b border-ink pb-3">
+      <a href="/" class="min-h-11 inline-flex items-end ink-link font-display text-[28px] leading-none" aria-label={`${press.name}, home`}>{press.name}</a>
+      <a href={`mailto:${press.email}`} class="sm link hidden sm:inline-flex items-center min-h-11">{press.email}</a>
+    </div>
+  </header>
+  <main id="main" class="flex-1"><slot /></main>
+  <footer class="container-x mt-20 no-print">
+    <div class="border-t border-ink pt-6 pb-8 flex flex-wrap gap-x-10 gap-y-3 meta">
+      <p class="text-ink">{press.name} · {press.tagline}</p>
+      <p><a class="link" href={`mailto:${press.email}`}>{press.email}</a></p>
+      <p>Set in Libre Caslon and Schibsted Grotesk.</p>
+      {press.themeCredit && <p><a class="ink-link underline underline-offset-2" href={press.themeCredit.url}>{press.themeCredit.label}</a></p>}
+    </div>
+    {press.demo && <p class="meta border-t border-line py-4">Demo list. {press.name} is a fictional press; the authors, translators and excerpts are real and in the public domain (Project Gutenberg transcriptions), but every edition, ISBN (marked “Demo”), price and bookshop link is invented.</p>}
+  </footer>
+</body>
+</html>

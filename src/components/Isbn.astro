@@ -1,0 +1,6 @@
+---
+import { press } from '../press.config';
+interface Props { isbn: string }
+const { isbn } = Astro.props;
+---
+<span class="tnum whitespace-nowrap">{isbn}{press.demo && <span class="label text-ink-2 ml-1.5 text-[10px] border border-line px-1 py-px align-[1px]" title="Demonstration ISBN — not a real book">Demo</span>}</span>

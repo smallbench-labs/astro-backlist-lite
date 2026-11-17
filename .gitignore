@@ -1,0 +1,11 @@
+*.log
+.DS_Store
+.astro/
+.env*
+/reports/
+dist/
+node_modules/
+/shots/*
+!/shots/home-1440.png
+!/shots/home-390.png
+!/shots/books_lady-with-the-dog-1440.png

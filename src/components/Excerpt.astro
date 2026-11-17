@@ -1,0 +1,13 @@
+---
+/** A passage set as a book page: indented paragraphs, the first few words in small caps. */
+interface Props { text: string; smallCaps?: number }
+const { text, smallCaps = 5 } = Astro.props;
+const inline = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\*([^*]+)\*/g, '<i>$1</i>').replace(/--/g, '—');
+const paras = text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+const first = paras[0].split(' ');
+const opening = `<span class="sc">${inline(first.slice(0, smallCaps).join(' '))}</span> ${inline(first.slice(smallCaps).join(' '))}`;
+---
+<div class="excerpt">
+  <p set:html={opening} />
+  {paras.slice(1).map((p) => <p set:html={inline(p)} />)}
+</div>

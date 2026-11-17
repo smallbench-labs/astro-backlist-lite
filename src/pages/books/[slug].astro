@@ -1,0 +1,51 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cover from '../../components/Cover.astro';
+import Excerpt from '../../components/Excerpt.astro';
+import Isbn from '../../components/Isbn.astro';
+import { allBooks, fmtDate, fmtPrice, formatLabel, statusLabel, type Book } from '../../lib/books';
+import { press } from '../../press.config';
+export async function getStaticPaths() {
+  return (await allBooks()).map((b) => ({ params: { slug: b.id }, props: { book: b } }));
+}
+const { book } = Astro.props as { book: Book };
+const d = book.data;
+const { Content } = await render(book);
+const formats = { hardcover: 'Hardcover', paperback: 'Paperback', ebook: 'EBook', audiobook: 'AudiobookFormat' } as const;
+const jsonld = {
+  '@context': 'https://schema.org', '@type': 'Book', name: d.title + (d.subtitle ? ` ${d.subtitle}` : ''), author: { '@type': 'Person', name: d.author },
+  isbn: d.isbn, bookFormat: `https://schema.org/${formats[d.format]}`, datePublished: d.pubDate, inLanguage: press.language,
+  ...(d.pages ? { numberOfPages: d.pages } : {}), publisher: { '@type': 'Organization', name: press.name },
+  ...(d.price !== undefined && d.buyUrl && d.status !== 'out-of-print' ? { offers: { '@type': 'Offer', price: d.price.toFixed(2), priceCurrency: d.currency, url: d.buyUrl, availability: `https://schema.org/${d.status === 'forthcoming' ? 'PreOrder' : 'InStock'}` } } : {}),
+};
+---
+<Base title={`${d.title} — ${d.author}`} description={`${d.title}${d.subtitle ? ' ' + d.subtitle : ''} by ${d.author}. ${(book.body ?? '').split(/\n\s*\n/)[0].replace(/\*/g, '').slice(0, 140)}`} jsonld={jsonld}>
+  <article class="container-x pt-10 md:pt-14">
+    <nav aria-label="Breadcrumb" class="meta mb-8 no-print"><a class="ink-link" href="/">All books</a></nav>
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-4"><div class="max-w-[300px] lg:max-w-none"><Cover book={book} eager sizes="(min-width:1024px) 360px, 300px" /></div></div>
+      <div class="lg:col-span-8">
+        <p class={`status status-${d.status}`}>{statusLabel[d.status]}</p>
+        <h1 class="h1 mt-3">{d.title}</h1>
+        {d.subtitle && <p class="font-display text-[26px] sm:text-[32px] leading-tight mt-2">{d.subtitle}</p>}
+        <p class="text-[20px] leading-[30px] mt-5">{d.author}{d.credit && <span class="ui text-[15px] text-ink-2 block">{d.credit}</span>}</p>
+        <div class="prose mt-8"><Content /></div>
+        <dl class="mt-10 border-t border-ink grid grid-cols-[8rem_1fr] ui text-[15px]">
+          <dt class="label text-ink-2 py-3 border-b border-line">Format</dt><dd class="py-3 border-b border-line">{formatLabel[d.format]}</dd>
+          <dt class="label text-ink-2 py-3 border-b border-line">ISBN-13</dt><dd class="py-3 border-b border-line"><Isbn isbn={d.isbn} /></dd>
+          <dt class="label text-ink-2 py-3 border-b border-line">Published</dt><dd class="py-3 border-b border-line tnum">{fmtDate(d.pubDate)}</dd>
+          {d.pages && <><dt class="label text-ink-2 py-3 border-b border-line">Extent</dt><dd class="py-3 border-b border-line tnum">{d.pages} pp · {d.trim.replace('x', ' × ')} mm</dd></>}
+          {d.price !== undefined && <><dt class="label text-ink-2 py-3 border-b border-line">Price</dt><dd class="py-3 border-b border-line">{fmtPrice(d.price, d.currency)}</dd></>}
+        </dl>
+        {d.buyUrl && d.status !== 'out-of-print' && <a class="btn btn-ink mt-6 no-print" href={d.buyUrl} rel="nofollow">{d.status === 'forthcoming' ? `Pre-order · ${d.buyLabel.replace(/^Buy /, '')}` : d.buyLabel}</a>}
+      </div>
+    </div>
+    {d.excerpt && (
+      <section class="section grid lg:grid-cols-12 gap-8" aria-labelledby="excerpt-h">
+        <div class="lg:col-span-4"><h2 id="excerpt-h" class="label text-ink-2">From the book</h2><p class="sm text-ink-2 mt-2 max-w-[30ch]">{d.excerpt.source}</p></div>
+        <div class="lg:col-span-8"><Excerpt text={d.excerpt.text} /></div>
+      </section>
+    )}
+  </article>
+</Base>

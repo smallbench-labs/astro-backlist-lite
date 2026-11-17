@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import { coverSvg } from '../lib/cover';
+import { coverColours } from '../lib/palette';
+import { press } from '../press.config';
+import type { Book } from '../lib/books';
+interface Props { book: Book; sizes?: string; eager?: boolean }
+const { book, sizes = '200px', eager = false } = Astro.props;
+const d = book.data;
+const [w, h] = d.format === 'audiobook' ? [1, 1] : d.trim.split('x');
+const c = coverColours(d.coverColour);
+const id = `cv-${book.id}-${Math.random().toString(36).slice(2, 7)}`;
+---
+<div class="cover" style={`aspect-ratio:${w} / ${h}`}>
+  {d.cover
+    ? <Image src={d.cover} alt={`Cover of ${d.title} by ${d.author}`} sizes={sizes} widths={[240, 480, 720]} loading={eager ? 'eager' : 'lazy'} class="w-full h-full object-cover" />
+    : <Fragment set:html={coverSvg({ title: d.title, subtitle: d.subtitle, authors: [d.author], secondary: d.credit, seriesName: press.name, bg: c.bg, fg: c.fg, trim: d.trim, breaks: d.coverBreaks, pressName: press.name, square: d.format === 'audiobook', label: `Cover of ${d.title} by ${d.author}` }, { id })} />}
+</div>

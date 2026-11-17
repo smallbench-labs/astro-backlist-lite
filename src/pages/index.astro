@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import { allBooks, fmtMonth, formatLabel, statusLabel } from '../lib/books';
+import { press } from '../press.config';
+const books = await allBooks();
+const jsonld = { '@context': 'https://schema.org', '@type': 'Organization', name: press.name, url: Astro.site!.href, email: press.email };
+---
+<Base jsonld={jsonld}>
+  <section class="container-x pt-12 md:pt-20 pb-10">
+    <p class="label text-ink-2">The list · {books.length} titles</p>
+    <h1 class="season mt-4">Books</h1>
+    <p class="lead mt-6 max-w-[54ch]">{press.intro}</p>
+  </section>
+  <section class="container-x" aria-label="All books">
+    <ol class="border-t border-ink">
+      {books.map((b, i) => (
+        <li class="grid grid-cols-[84px_1fr] sm:grid-cols-[110px_1fr] md:grid-cols-[120px_1fr_11rem] gap-x-5 md:gap-x-8 py-7 border-b border-line items-start">
+          <a href={`/books/${b.id}/`} tabindex="-1" aria-hidden="true" class="block"><Cover book={b} sizes="120px" eager={i < 3} /></a>
+          <div class="min-w-0">
+            <h2 class="font-display text-[30px] sm:text-[36px] leading-[1.05]"><a class="ink-link" href={`/books/${b.id}/`}>{b.data.title}</a></h2>
+            {b.data.subtitle && <p class="font-serif italic text-[17px] mt-1">{b.data.subtitle}</p>}
+            <p class="text-[18px] mt-2">{b.data.author}{b.data.credit && <span class="ui text-[14px] text-ink-2 block sm:inline sm:ml-2">{b.data.credit}</span>}</p>
+            <p class="text-[16px] leading-[25px] text-ink-2 mt-3 max-w-[60ch] hidden sm:block">{(b.body ?? '').split(/\n\s*\n/)[0].replace(/\*/g, '')}</p>
+            <p class="md:hidden meta mt-3">{formatLabel[b.data.format]} · {fmtMonth(b.data.pubDate)} · <span class={`status status-${b.data.status}`}>{statusLabel[b.data.status]}</span></p>
+          </div>
+          <dl class="hidden md:grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 ui text-[14px]">
+            <dt class="text-ink-2">Status</dt><dd><span class={`status status-${b.data.status}`}>{statusLabel[b.data.status]}</span></dd>
+            <dt class="text-ink-2">Format</dt><dd>{formatLabel[b.data.format]}</dd>
+            <dt class="text-ink-2">Published</dt><dd class="tnum">{fmtMonth(b.data.pubDate)}</dd>
+          </dl>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
