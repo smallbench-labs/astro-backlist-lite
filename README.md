@@ -1,3 +1,7 @@
+**[Full version US$39](https://themes.formchime.com/themes/backlist/)**
+
+![Astro Backlist Lite home page](shots/home.png)
+
 # Astro Backlist Lite
 
 A free, MIT-licensed Astro theme for a small press or a self-publishing author: one list of books and a page for each book, set like a publisher's seasonal catalogue — white paper, Libre Caslon and Schibsted Grotesk, a single cloth-green accent, and **typographic covers generated from each book's title and author**, so you never need a placeholder image. Static, no JavaScript, Lighthouse 95+.
