@@ -11,7 +11,7 @@ pages: 256
 trim: "117x180"
 price: 16.95
 currency: USD
-buyUrl: "https://bookshop.example.org/a/00000/9781917650304"
+buyUrl: "https://example.com/bookshop/a/00000/9781917650304"
 coverColour: sand
 coverBreaks: "The|Grasmere|Journal"
 excerpt:

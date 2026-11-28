@@ -10,7 +10,7 @@ pages: 304
 trim: "140x216"
 price: 27.00
 currency: USD
-buyUrl: "https://bookshop.example.org/a/00000/9781917650106"
+buyUrl: "https://example.com/bookshop/a/00000/9781917650106"
 coverColour: slate
 coverBreaks: "The Home|and the World"
 excerpt:

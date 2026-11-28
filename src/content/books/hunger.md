@@ -10,7 +10,7 @@ pages: 232
 trim: "129x198"
 price: 17.95
 currency: USD
-buyUrl: "https://bookshop.example.org/a/00000/9781917650038"
+buyUrl: "https://example.com/bookshop/a/00000/9781917650038"
 coverColour: brick
 excerpt:
   source: "Opening of Part I, translated by George Egerton (1899)"

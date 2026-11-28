@@ -10,7 +10,7 @@ pages: 224
 trim: "129x198"
 price: 17.95
 currency: USD
-buyUrl: "https://bookshop.example.org/a/00000/9781917650243"
+buyUrl: "https://example.com/bookshop/a/00000/9781917650243"
 coverColour: rose
 coverBreaks: "The Garden|Party"
 excerpt:

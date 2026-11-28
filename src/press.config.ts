@@ -6,7 +6,7 @@ export const press = {
   /** Shown above the list on the home page. */
   intro:
     'Six books on the list, from Chekhov in Constance Garnett’s translation to Dorothy Wordsworth’s Grasmere journal. Every one is set from a good early text and says where that text came from.',
-  email: 'hello@weirside-editions.example.org',
+  email: 'hello@example.com',
   language: 'en',
   /** Prints "Demo" next to ISBNs and a notice in the footer. Set to false for a real press. */
   demo: true,

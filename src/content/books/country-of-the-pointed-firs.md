@@ -9,7 +9,7 @@ pages: 176
 trim: "129x198"
 price: 16.95
 currency: USD
-buyUrl: "https://bookshop.example.org/a/00000/9781917650199"
+buyUrl: "https://example.com/bookshop/a/00000/9781917650199"
 coverColour: green
 coverBreaks: "The Country|of the|Pointed Firs"
 excerpt:

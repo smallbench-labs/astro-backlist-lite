@@ -6,7 +6,7 @@
 
 A free, MIT-licensed Astro theme for a small press or a self-publishing author: one list of books and a page for each book, set like a publisher's seasonal catalogue — white paper, Libre Caslon and Schibsted Grotesk, a single cloth-green accent, and **typographic covers generated from each book's title and author**, so you never need a placeholder image. Static, no JavaScript, Lighthouse 95+.
 
-> **Demo content.** *Weirside Editions* is a fictional press. Its six books are real public-domain works by real, long-dead authors and translators; the excerpts are quoted from Project Gutenberg transcriptions (Chekhov #13415, Mansfield #1429, Tagore #7166, Dorothy Wordsworth #42856, Hamsun #8387, Jewett #367). The editions, ISBNs (checksum-valid, marked “Demo”), prices and bookshop links (example.org) are invented. Replace them before you publish.
+> **Demo content.** *Weirside Editions* is a fictional press. Its six books are real public-domain works by real, long-dead authors and translators; the excerpts are quoted from Project Gutenberg transcriptions (Chekhov #13415, Mansfield #1429, Tagore #7166, Dorothy Wordsworth #42856, Hamsun #8387, Jewett #367). The editions, ISBNs (checksum-valid, marked “Demo”), prices and bookshop links (example.com) are invented. Replace them before you publish.
 >
 > **About the demo ISBNs.** They use the prefix 978-1-917650, which is a block that may be registered to a real publisher or print-on-demand service. None of these numbers is assigned to Weirside Editions or to any real book (no Open Library match), and the site marks each one “Demo”. Never print them on a real book or reuse them. Replace every ISBN with numbers from your own registrant before you publish.
 
